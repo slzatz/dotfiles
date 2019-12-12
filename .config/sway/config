@@ -1,0 +1,264 @@
+# Default config for sway
+#
+# Copy this to ~/.config/sway/config and edit it to your liking.
+#
+# Read `man 5 sway` for a complete reference.
+
+### Variables
+#
+# Logo key. Use Mod1 for Alt.
+set $mod Mod4
+# Home row direction keys, like vim
+set $left h
+set $down j
+set $up k
+set $right l
+# Your preferred terminal emulator
+#set $term urxvt
+set $term termite
+
+# Your preferred application launcher
+#set $menu dmenu_run
+#set $menu exec j4-dmenu-desktop
+
+# vertical j4-menu-desktop
+set $menu exec j4-dmenu-desktop --dmenu="dmenu -i -l 20"
+
+### Output configuration
+#
+# Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
+#output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
+#output * bg "/home/slzatz/Downloads/Lots of wood ducks.jpg" fill
+#
+# laptop
+output eDP-1 bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
+# dell
+output HDMI-A-2 bg "/home/slzatz/Downloads/Lots of wood ducks.jpg" fill 
+# asus
+output DP-1 bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
+
+# Example configuration:
+#
+#   output HDMI-A-1 resolution 1920x1080 position 1920,0
+#
+# You can get the names of your outputs by running: swaymsg -t get_outputs
+
+# set vertical monitor relationship
+output eDP-1 resolution 2560x1440 position 0,1440
+output HDMI-A-2 resolution 2560x1440 position 0,0
+output DP-1 resolution 1920x1080 position -1920,0
+# below is interesting because sway bar still appears but nothing else
+#output eDP-1 disable ###############################################
+### Input configuration
+#
+# Example configuration:
+#
+#   input "2:14:SynPS/2_Synaptics_TouchPad" {
+#       dwt enabled
+#       tap enabled
+#       natural_scroll enabled
+#       middle_emulation enabled
+#   }
+#
+# You can get the names of your inputs by running: swaymsg -t get_inputs
+# Read `man 5 sway-input` for more information about this section.
+
+# this disables the T470s trackpad
+input "2:7:SynPS/2_Synaptics_TouchPad" {
+  events disabled
+}
+
+input "1:1:AT_Translated_Set_2_keyboard" {
+  xkb_options caps:escape
+}
+
+### Key bindings
+#
+# Basics:
+#
+    # start a terminal
+    bindsym $mod+Return exec $term
+
+    # kill focused window
+    bindsym $mod+Shift+q kill
+
+    # start your launcher
+    bindsym $mod+d exec $menu
+
+    # Drag floating windows by holding down $mod and left mouse button.
+    # Resize them with right mouse button + $mod.
+    # Despite the name, also works for non-floating windows.
+    # Change normal to inverse to use left mouse button for resizing and right
+    # mouse button for dragging.
+    floating_modifier $mod normal
+
+    # reload the configuration file
+    bindsym $mod+Shift+c reload
+
+    # exit sway (logs you out of your wayland session)
+    bindsym $mod+Shift+e exit
+#
+# Moving around:
+#
+    # Move your focus around
+    bindsym $mod+$left focus left
+    bindsym $mod+$down focus down
+    bindsym $mod+$up focus up
+    bindsym $mod+$right focus right
+    # or use $mod+[up|down|left|right]
+    bindsym $mod+Left focus left
+    bindsym $mod+Down focus down
+    bindsym $mod+Up focus up
+    bindsym $mod+Right focus right
+
+    # _move_ the focused window with the same, but add Shift
+    bindsym $mod+Shift+$left move left
+    bindsym $mod+Shift+$down move down
+    bindsym $mod+Shift+$up move up
+    bindsym $mod+Shift+$right move right
+    # ditto, with arrow keys
+    bindsym $mod+Shift+Left move left
+    bindsym $mod+Shift+Down move down
+    bindsym $mod+Shift+Up move up
+    bindsym $mod+Shift+Right move right
+#
+# Workspaces:
+#
+    # switch to workspace
+    bindsym $mod+1 workspace 1:terminals
+    bindsym $mod+2 workspace 2:terminals
+    bindsym $mod+3 workspace 3:qtcreator
+    bindsym $mod+4 workspace 4:xeus-cling
+    bindsym $mod+5 workspace 5:sonosdisplay
+    bindsym $mod+6 workspace 6:qutebrowser
+    bindsym $mod+7 workspace 7:listmanager
+    bindsym $mod+8 workspace 8:chromium
+    bindsym $mod+9 workspace 9:files
+    bindsym $mod+0 workspace 10
+    # move focused container to workspace
+    bindsym $mod+Shift+1 move container to workspace 1:terminals
+    bindsym $mod+Shift+2 move container to workspace 2:terminals
+    bindsym $mod+Shift+3 move container to workspace 3:qtcreator
+    bindsym $mod+Shift+4 move container to workspace 4:xeus-cling
+    bindsym $mod+Shift+5 move container to workspace 5:sonosdisplay
+    bindsym $mod+Shift+6 move container to workspace 6:qutebrowser
+    bindsym $mod+Shift+7 move container to workspace 7:listmanager
+    bindsym $mod+Shift+8 move container to workspace 8:chromium
+    bindsym $mod+Shift+9 move container to workspace 9:files
+    bindsym $mod+Shift+0 move container to workspace 10
+    # Note: workspaces can have any name you want, not just numbers.
+    # We just use 1-10 as the default.
+    bindsym $mod+Shift+w workspace next
+
+    workspace_auto_back_and_forth yes
+
+    workspace 1:terminals output HDMI-A-2
+    workspace 2:terminals output HDMI-A-2
+    workspace 3:qtcreator output HDMI-A-2
+    workspace 4:xeus-cling output HDMI-A-2
+    workspace 5:sonosdisplay output DP-1
+    workspace 6:qutebrowser output DP-1
+    workspace 7:listmanager output eDP-1
+    workspace 8:chromium output eDP-1
+    workspace 9:files output eDP-1
+#
+# Layout stuff:
+#
+    # You can "split" the current object of your focus with
+    # $mod+b or $mod+v, for horizontal and vertical splits
+    # respectively.
+    bindsym $mod+b splith
+    bindsym $mod+v splitv
+
+    # Switch the current container between different layout styles
+    bindsym $mod+s layout stacking
+    bindsym $mod+w layout tabbed
+    bindsym $mod+e layout toggle split
+
+    # Make the current focus fullscreen
+    bindsym $mod+f fullscreen
+
+    # Toggle the current focus between tiling and floating mode
+    bindsym $mod+Shift+space floating toggle
+
+    # Swap focus between the tiling area and the floating area
+    bindsym $mod+space focus mode_toggle
+
+    # move focus to the parent container
+    bindsym $mod+a focus parent
+#
+# Scratchpad:
+#
+    # Sway has a "scratchpad", which is a bag of holding for windows.
+    # You can send windows there and get them back later.
+
+    # Move the currently focused window to the scratchpad
+    bindsym $mod+Shift+minus move scratchpad
+
+    # Show the next scratchpad window or hide the focused scratchpad window.
+    # If there are multiple scratchpad windows, this command cycles through them.
+    bindsym $mod+minus scratchpad show
+#
+# Resizing containers:
+#
+mode "resize" {
+    # left will shrink the containers width
+    # right will grow the containers width
+    # up will shrink the containers height
+    # down will grow the containers height
+    bindsym $left resize shrink width 10 px or 10 ppt
+    bindsym $down resize grow height 10 px or 10 ppt
+    bindsym $up resize shrink height 10 px or 10 ppt
+    bindsym $right resize grow width 10 px or 10 ppt
+
+    # ditto, with arrow keys
+    bindsym Left resize shrink width 10 px or 10 ppt
+    bindsym Down resize grow height 10 px or 10 ppt
+    bindsym Up resize shrink height 10 px or 10 ppt
+    bindsym Right resize grow width 10 px or 10 ppt
+
+    # return to default mode
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+r mode "resize"
+
+# Sound bindings for pulseaudio:
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5% && killall -SIGUSR1 i3status
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5% && killall -SIGUSR1 i3status
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle
+bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute 1 toggle
+
+#
+# Status Bar:
+#
+# Read `man 5 sway-bar` for more information about this section.
+bar {
+    position top
+   # status_command sway_status.py
+    status_command i3status
+    colors {
+        statusline #ffffff
+        background #323232
+        inactive_workspace #32323200 #32323200 #5c5c5c
+    }
+}
+# does not seem necessary to do exec --no-startup-id
+# exec swaymsg "workspace 3:terminals; exec termite; exec termite; splitv; exec termite" #doesn't work
+#exec swaymsg "layout splitv" doesn't work
+#exec swaymsg "workspace 1:terminals; exec termite; layout focus child; layout splitv; exec termite; exec termite; exec termite"
+#exec swaymsg "focus parent"
+#exec swaymsg "layout splitv"
+exec swaymsg "workspace 1:terminals; exec termite; exec termite"
+exec swaymsg "workspace 2:terminals; exec termite; exec termite"
+exec swaymsg "workspace 3:qtcreator; exec qtcreator"
+exec swaymsg "workspace 4:xeus-cling; exec gnome-terminal"
+exec swaymsg "workspace 6:qutebrowser; exec qutebrowser"  
+exec swaymsg "workspace 8:chromium; exec chromium"  
+#exec swaymsg "workspace 9:files; exec mc; exec files"  
+#exec swaymsg "workspace 4:displayinfo; exec ./launch_display_info_photos3"
+#exec ./launch_listmanager"
+
+focus_follows_mouse no
+#include /etc/sway/config.d/*
+
